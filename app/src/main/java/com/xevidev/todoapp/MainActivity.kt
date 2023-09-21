@@ -27,7 +27,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    TasksScreen(tasksViewModel)
+                    TasksScreen()
+//                    TasksScreen(tasksViewModel)
                 }
             }
         }
