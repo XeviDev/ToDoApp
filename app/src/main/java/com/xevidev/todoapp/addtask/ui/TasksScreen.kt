@@ -9,31 +9,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 
-@Preview
 @Composable
-fun TasksScreen() {
+fun TasksScreen(tasksViewModel: TasksViewModel) {
+
+    val showDialog: Boolean by tasksViewModel.showDialog.observeAsState(initial = false)
+
     Box(modifier = Modifier.fillMaxSize()) {
-        AddTasksDialog(show = true, onDismiss = {}, onTaskAdded = {})
-        FabDialog(Modifier.align(Alignment.BottomEnd))
+        AddTasksDialog(show = showDialog,
+            onDismiss = { tasksViewModel.onDialogClose() },
+            onTaskAdded = { tasksViewModel.onTasksCreated(it) })
+        FabDialog(Modifier.align(Alignment.BottomEnd), tasksViewModel)
     }
 
 }
 
 @Composable
-fun FabDialog(modifier: Modifier) {
+fun FabDialog(modifier: Modifier, tasksViewModel: TasksViewModel) {
     FloatingActionButton(
         onClick = {
-            //show dialog
-
+            tasksViewModel.onShowDialogClick()
         }, modifier = modifier
             .padding(16.dp)
     ) {
@@ -44,7 +47,7 @@ fun FabDialog(modifier: Modifier) {
 }
 
 @Composable
-fun AddTasksDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded:(String) -> Unit) {
+fun AddTasksDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded: (String) -> Unit) {
     var myTask by remember {
         mutableStateOf("")
     }
@@ -54,7 +57,8 @@ fun AddTasksDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded:(String) ->
                 Modifier
                     .fillMaxWidth()
                     .background(Color.White)
-                    .padding(16.dp)) {
+                    .padding(16.dp)
+            ) {
                 Text(
                     text = "Añade tu tarea",
                     fontSize = 16.sp,
@@ -62,7 +66,12 @@ fun AddTasksDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded:(String) ->
                     fontWeight = FontWeight.Bold
                 )
                 Spacer(modifier = Modifier.size(16.dp))
-                TextField(value = myTask, onValueChange = { myTask = it }, singleLine = true, maxLines = 1)
+                TextField(
+                    value = myTask,
+                    onValueChange = { myTask = it },
+                    singleLine = true,
+                    maxLines = 1
+                )
                 Spacer(modifier = Modifier.size(16.dp))
                 Button(onClick = {
                     onTaskAdded(myTask)
