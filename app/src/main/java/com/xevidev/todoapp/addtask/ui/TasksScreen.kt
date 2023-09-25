@@ -1,5 +1,6 @@
 package com.xevidev.todoapp.addtask.ui
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -25,6 +27,7 @@ fun TasksScreen(tasksViewModel: TasksViewModel) {
     val showDialog: Boolean by tasksViewModel.showDialog.observeAsState(initial = false)
 
     Box(modifier = Modifier.fillMaxSize()) {
+        ItemTask()
         AddTasksDialog(show = showDialog,
             onDismiss = { tasksViewModel.onDialogClose() },
             onTaskAdded = { tasksViewModel.onTasksCreated(it) })
@@ -36,8 +39,29 @@ fun TasksScreen(tasksViewModel: TasksViewModel) {
 
 @Composable
 fun TasksList(tasksViewModel: TasksViewModel) {
-    LazyColumn(){
-        
+    LazyColumn() {
+
+    }
+}
+
+@Preview
+@Composable
+fun ItemTask() {
+    Card(
+        Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        elevation = 8.dp
+    ) {
+        Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Ejemplo", modifier = Modifier
+                    .padding(horizontal = 4.dp)
+                    .weight(1f)
+            )
+            Checkbox(checked = true, onCheckedChange = {})
+        }
+
     }
 }
 
