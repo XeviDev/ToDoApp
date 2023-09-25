@@ -1,9 +1,11 @@
 package com.xevidev.todoapp.addtask.ui
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.xevidev.todoapp.addtask.ui.model.TaskModel
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor() : ViewModel() {
@@ -11,18 +13,25 @@ class TasksViewModel @Inject constructor() : ViewModel() {
     private val _showDialog = MutableLiveData<Boolean>()
     val showDialog:LiveData<Boolean> = _showDialog
 
+    //We can use here livedata but it's not a good option for lists
+    private val _tasks = mutableStateListOf<TaskModel>()
+    val task:List<TaskModel> = _tasks
 
     fun onDialogClose() {
         _showDialog.value = false
     }
 
     fun onTasksCreated(task: String) {
-        Log.i("Xevi", task)
+        _tasks.add(TaskModel(task = task))
         onDialogClose()
     }
 
     fun onShowDialogClick() {
         _showDialog.value = true
+    }
+
+    fun onCheckBoxSelected(taskModel: TaskModel) {
+
     }
 
 }

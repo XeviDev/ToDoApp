@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -20,6 +21,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import com.xevidev.todoapp.addtask.ui.model.TaskModel
 
 @Composable
 fun TasksScreen(tasksViewModel: TasksViewModel) {
@@ -27,7 +29,6 @@ fun TasksScreen(tasksViewModel: TasksViewModel) {
     val showDialog: Boolean by tasksViewModel.showDialog.observeAsState(initial = false)
 
     Box(modifier = Modifier.fillMaxSize()) {
-        ItemTask()
         AddTasksDialog(show = showDialog,
             onDismiss = { tasksViewModel.onDialogClose() },
             onTaskAdded = { tasksViewModel.onTasksCreated(it) })
@@ -39,14 +40,19 @@ fun TasksScreen(tasksViewModel: TasksViewModel) {
 
 @Composable
 fun TasksList(tasksViewModel: TasksViewModel) {
+    val myTasks: List<TaskModel> = tasksViewModel.task
+    //The (g)old recyclerView
     LazyColumn() {
-
+        //We use the key arg for helping the recyclerView (lazycolumn)
+        //because sometimes its not very good finding items
+        items(myTasks, key = { it.id }) { task ->
+            ItemTask(taskModel = task, tasksViewModel = tasksViewModel)
+        }
     }
 }
 
-@Preview
 @Composable
-fun ItemTask() {
+fun ItemTask(taskModel: TaskModel, tasksViewModel: TasksViewModel) {
     Card(
         Modifier
             .fillMaxWidth()
@@ -55,11 +61,13 @@ fun ItemTask() {
     ) {
         Row(Modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
             Text(
-                text = "Ejemplo", modifier = Modifier
+                text = taskModel.task, modifier = Modifier
                     .padding(horizontal = 4.dp)
                     .weight(1f)
             )
-            Checkbox(checked = true, onCheckedChange = {})
+            Checkbox(
+                checked = taskModel.selected,
+                onCheckedChange = { tasksViewModel.onCheckBoxSelected(taskModel) })
         }
 
     }
