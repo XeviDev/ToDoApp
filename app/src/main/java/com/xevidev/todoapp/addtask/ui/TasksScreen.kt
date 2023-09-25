@@ -2,6 +2,7 @@ package com.xevidev.todoapp.addtask.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -28,8 +29,16 @@ fun TasksScreen(tasksViewModel: TasksViewModel) {
             onDismiss = { tasksViewModel.onDialogClose() },
             onTaskAdded = { tasksViewModel.onTasksCreated(it) })
         FabDialog(Modifier.align(Alignment.BottomEnd), tasksViewModel)
+        TasksList(tasksViewModel)
     }
 
+}
+
+@Composable
+fun TasksList(tasksViewModel: TasksViewModel) {
+    LazyColumn(){
+        
+    }
 }
 
 @Composable
