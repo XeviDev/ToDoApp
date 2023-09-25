@@ -31,7 +31,15 @@ class TasksViewModel @Inject constructor() : ViewModel() {
     }
 
     fun onCheckBoxSelected(taskModel: TaskModel) {
-
+        /*
+        We need to use this to recompose the view. If we change the value directly, it
+        doesn't recompose.
+        Using let we prevent to show null data
+         */
+        val index = _tasks.indexOf(taskModel)
+        _tasks[index] = _tasks[index].let {
+            it.copy(selected = !it.selected)
+        }
     }
 
 }
