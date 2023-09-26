@@ -1,7 +1,9 @@
 package com.xevidev.todoapp.addtask.ui
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -40,6 +42,11 @@ class TasksViewModel @Inject constructor() : ViewModel() {
         _tasks[index] = _tasks[index].let {
             it.copy(selected = !it.selected)
         }
+    }
+
+    fun onItemRemove(taskModel: TaskModel) {
+        val task = _tasks.find { it.id == taskModel.id }
+        _tasks.remove(task)
     }
 
 }
