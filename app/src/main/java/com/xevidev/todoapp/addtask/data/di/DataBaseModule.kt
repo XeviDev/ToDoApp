@@ -19,7 +19,7 @@ class DataBaseModule {
     fun provideTaskDao(todoDatabase: TodoDatabase):TaskDAO{
         return todoDatabase.taskDao()
     }
-
+ 
     @Provides
     @Singleton
     fun provideTodoDatabase(@ApplicationContext appContext: Context): TodoDatabase {
