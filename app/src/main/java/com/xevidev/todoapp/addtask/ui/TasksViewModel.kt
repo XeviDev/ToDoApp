@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class TasksViewModel @Inject constructor(
@@ -47,6 +48,10 @@ class TasksViewModel @Inject constructor(
     fun onTasksCreated(task: String) {
         _tasks.add(TaskModel(task = task))
         onDialogClose()
+
+        viewModelScope.launch {
+            addTaskUseCase(TaskModel(task = task))
+        }
     }
 
     fun onShowDialogClick() {
