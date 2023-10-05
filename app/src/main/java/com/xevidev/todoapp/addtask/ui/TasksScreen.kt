@@ -21,17 +21,38 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.xevidev.todoapp.addtask.ui.model.TaskModel
 
 @Composable
 fun TasksScreen(tasksViewModel: TasksViewModel) {
-
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
     val showDialog: Boolean by tasksViewModel.showDialog.observeAsState(initial = false)
+
+    val uiState by produceState<TasksUIState>(
+        initialValue = TasksUIState.Loading,
+        key1 = lifecycle,
+        key2 = tasksViewModel
+    ){
+        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED){
+            tasksViewModel.uiState.collect{
+                value = it
+            }
+        }
+    }
+
+    when(uiState){
+        is TasksUIState.Error -> TODO()
+        TasksUIState.Loading -> TODO()
+        is TasksUIState.Success -> TODO()
+    }
 
     Box(modifier = Modifier.fillMaxSize()) {
         AddTasksDialog(show = showDialog,
@@ -45,7 +66,6 @@ fun TasksScreen(tasksViewModel: TasksViewModel) {
 
 @Composable
 fun TasksList(tasksViewModel: TasksViewModel) {
-    val myTasks: List<TaskModel> = tasksViewModel.task
     //The (g)old recyclerView
     LazyColumn() {
         //We use the key arg for helping the recyclerView (lazycolumn)
@@ -64,10 +84,12 @@ fun ItemTask(taskModel: TaskModel, tasksViewModel: TasksViewModel) {
             .fillMaxWidth()
             .padding(horizontal = 16.dp, vertical = 8.dp)
             //With pointerInput we can access to different gestures
-            .pointerInput(Unit){
+            .pointerInput(Unit) {
                 detectTapGestures(onLongPress = {
                     tasksViewModel.onItemRemove(taskModel)
-                    Toast.makeText(context,"Task removed", Toast.LENGTH_SHORT).show()
+                    Toast
+                        .makeText(context, "Task removed", Toast.LENGTH_SHORT)
+                        .show()
                 })
             },
         elevation = 8.dp

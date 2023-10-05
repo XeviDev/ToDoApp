@@ -38,19 +38,18 @@ class TasksViewModel @Inject constructor(
     val showDialog: LiveData<Boolean> = _showDialog
 
     //We can use here livedata but it's not a good option for lists
-    private val _tasks = mutableStateListOf<TaskModel>()
-    val task: List<TaskModel> = _tasks
+//    private val _tasks = mutableStateListOf<TaskModel>()
+//    val task: List<TaskModel> = _tasks
 
     fun onDialogClose() {
         _showDialog.value = false
     }
 
     fun onTasksCreated(task: String) {
-        _tasks.add(TaskModel(task = task))
-        onDialogClose()
 
         viewModelScope.launch {
             addTaskUseCase(TaskModel(task = task))
+            onDialogClose()
         }
     }
 
@@ -64,15 +63,15 @@ class TasksViewModel @Inject constructor(
         doesn't recompose.
         Using let we prevent to show null data
          */
-        val index = _tasks.indexOf(taskModel)
-        _tasks[index] = _tasks[index].let {
-            it.copy(selected = !it.selected)
-        }
+//        val index = _tasks.indexOf(taskModel)
+//        _tasks[index] = _tasks[index].let {
+//            it.copy(selected = !it.selected)
+//        }
     }
 
     fun onItemRemove(taskModel: TaskModel) {
-        val task = _tasks.find { it.id == taskModel.id }
-        _tasks.remove(task)
+//        val task = _tasks.find { it.id == taskModel.id }
+//        _tasks.remove(task)
     }
 
 }
