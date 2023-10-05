@@ -1,9 +1,7 @@
 package com.xevidev.todoapp.addtask.ui
 
 import android.widget.Toast
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -23,7 +21,6 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -40,37 +37,44 @@ fun TasksScreen(tasksViewModel: TasksViewModel) {
         initialValue = TasksUIState.Loading,
         key1 = lifecycle,
         key2 = tasksViewModel
-    ){
-        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED){
-            tasksViewModel.uiState.collect{
+    ) {
+        lifecycle.repeatOnLifecycle(state = Lifecycle.State.STARTED) {
+            tasksViewModel.uiState.collect {
                 value = it
             }
         }
     }
 
-    when(uiState){
-        is TasksUIState.Error -> TODO()
-        TasksUIState.Loading -> TODO()
-        is TasksUIState.Success -> TODO()
+    when (uiState) {
+        is TasksUIState.Error -> {
+
+        }
+
+        TasksUIState.Loading -> {
+            CircularProgressIndicator()
+        }
+
+        is TasksUIState.Success -> {
+            Box(modifier = Modifier.fillMaxSize()) {
+                AddTasksDialog(show = showDialog,
+                    onDismiss = { tasksViewModel.onDialogClose() },
+                    onTaskAdded = { tasksViewModel.onTasksCreated(it) })
+                FabDialog(Modifier.align(Alignment.BottomEnd), tasksViewModel)
+                TasksList((uiState as TasksUIState.Success).tasks, tasksViewModel)
+            }
+        }
     }
 
-    Box(modifier = Modifier.fillMaxSize()) {
-        AddTasksDialog(show = showDialog,
-            onDismiss = { tasksViewModel.onDialogClose() },
-            onTaskAdded = { tasksViewModel.onTasksCreated(it) })
-        FabDialog(Modifier.align(Alignment.BottomEnd), tasksViewModel)
-        TasksList(tasksViewModel)
-    }
 
 }
 
 @Composable
-fun TasksList(tasksViewModel: TasksViewModel) {
+fun TasksList(tasks: List<TaskModel>, tasksViewModel: TasksViewModel) {
     //The (g)old recyclerView
     LazyColumn() {
         //We use the key arg for helping the recyclerView (lazycolumn)
         //because sometimes its not very good finding items
-        items(myTasks, key = { it.id }) { task ->
+        items(tasks, key = { it.id }) { task ->
             ItemTask(taskModel = task, tasksViewModel = tasksViewModel)
         }
     }
