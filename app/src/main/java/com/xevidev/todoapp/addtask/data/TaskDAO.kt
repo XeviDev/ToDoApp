@@ -1,6 +1,7 @@
 package com.xevidev.todoapp.addtask.data
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
@@ -18,4 +19,7 @@ interface TaskDAO {
 
     @Update
     suspend fun updateTask(item: TaskEntity)
+
+    @Delete
+    suspend fun deleteTask(item: TaskEntity)
 }
