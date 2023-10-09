@@ -63,7 +63,7 @@ class TasksViewModel @Inject constructor(
         /*
         We need to use this to recompose the view. If we change the value directly, it
         doesn't recompose.
-        Using let we prevent to show null data
+        Using let we prevent to show null data 
          */
 
         viewModelScope.launch {
