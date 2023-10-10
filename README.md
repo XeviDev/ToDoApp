@@ -19,6 +19,8 @@ This application is a task application in which I have worked with the following
 In this version you will be able to create tasks, cross them out and delete them from the list. It also has data persistence.
 
 <img src="img_versions/v1.0_1.png?raw=true"  width="25%" height="25%">
+<img src="img_versions/v1.0_2.png?raw=true"  width="25%" height="25%">
+<img src="img_versions/v1.0_3.png?raw=true"  width="25%" height="25%">
 
 ## License
 
