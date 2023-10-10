@@ -18,7 +18,8 @@ This application is a task application in which I have worked with the following
 ## Version 1.0
 In this version you will be able to create tasks, cross them out and delete them from the list. It also has data persistence.
 
-![alt text](.img_versions/v1.0_1.png?raw=true)
+![alt text](img_versions/v1.0_1.png?raw=true)
+![alt text](/img_versions/v1.0_1.png?raw=true)
 
 
 ## License
