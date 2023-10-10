@@ -31,6 +31,9 @@ also has data persistence.
     <img src="img_versions/v1.0_3.png?raw=true"  width="25%" height="25%">
 </p>
 
+Especial thanks to <a href="https://github.com/ArisGuimera" target="_blank">AristiDevs</a> for this
+great course.
+
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
