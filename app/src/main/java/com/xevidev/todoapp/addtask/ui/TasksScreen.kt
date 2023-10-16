@@ -125,7 +125,7 @@ fun FabDialog(modifier: Modifier, tasksViewModel: TasksViewModel) {
         )
     }
 }
-
+ 
 @Composable
 fun AddTasksDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded: (String) -> Unit) {
     var myTask by remember {
