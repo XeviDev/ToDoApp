@@ -3,7 +3,7 @@
 ## About me
 
 Hello, my name is Jose Vicente (aka XeviDev) and I am passionate about everything that has to do
-with technology and programming, especially Android.
+with technology and programming, especially Android. 
 
 ## Technologies used
 
