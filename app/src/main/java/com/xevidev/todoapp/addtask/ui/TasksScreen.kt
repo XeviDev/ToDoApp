@@ -125,7 +125,7 @@ fun FabDialog(modifier: Modifier, tasksViewModel: TasksViewModel) {
         )
     }
 }
- 
+
 @Composable
 fun AddTasksDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded: (String) -> Unit) {
     var myTask by remember {
@@ -139,7 +139,7 @@ fun AddTasksDialog(show: Boolean, onDismiss: () -> Unit, onTaskAdded: (String) -
                     .background(Color.White)
                     .padding(16.dp)
             ) {
-                Text(
+                Text( 
                     text = "Añade tu tarea",
                     fontSize = 16.sp,
                     modifier = Modifier.align(Alignment.CenterHorizontally),
