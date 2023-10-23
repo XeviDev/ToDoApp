@@ -28,7 +28,7 @@ class TasksViewModel @Inject constructor(
     private val deleteTaskUseCase: DeleteTaskUseCase,
     getTasksUseCase: GetTasksUseCase
 ) : ViewModel() {
- 
+
     //Here grabs the content of the stateFlow and for each one you gona converted in a Success
     val uiState: StateFlow<TasksUIState> = getTasksUseCase().map(::Success)
         .catch { Error(it) }
